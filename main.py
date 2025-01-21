@@ -1,0 +1,49 @@
+import numpy as np
+
+side_length = 15
+width, height = side_length, int(side_length*(1/3))+side_length  # Assumes width is an additional 1/3 of height. To achieve this look use Courier new font on Windows terminal with 12ft size and 0.5 line spacing.
+x, y, z = 1.0, 0.5 ,0.0
+
+display_array = np.zeros((width, height), dtype=int)
+
+def get_rx(theta):
+    return np.array([
+        [1, 0, 0],
+        [0, np.cos(theta), -np.sin(theta)],
+        [0, np.sin(theta), np.cos(theta)]
+    ])
+def get_ry(theta):
+    return np.array([
+        [np.cos(theta), 0, np.sin(theta)],
+        [0, 1, 0],
+        [-np.sin(theta), 0, np.cos(theta)]
+    ])
+def get_rz(theta):
+    return np.array([
+        [np.cos(theta), -np.sin(theta), 0],
+        [np.sin(theta), np.cos(theta), 0],
+        [0, 0, 1]
+    ])
+
+def print_console():
+    for i in range(display_array.shape[0]):
+        for j in range(display_array.shape[1]):
+            match display_array[i,j]:
+                case 0:
+                    print("#", end='')
+                case 1:
+                    print(".", end='')
+                case 2:
+                    print("~", end='')
+                case 3:
+                    print("%", end='')
+                case 4:
+                    print("|", end='')
+                case 5:
+                    print("=", end='')
+                case _:
+                    print('x', end='')
+        print('\n')
+print("\n")
+print_console()
+print()
