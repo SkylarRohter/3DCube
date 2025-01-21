@@ -1,10 +1,13 @@
 import numpy as np
 
 side_length = 15
-width, height = side_length, int(side_length*(1/3))+side_length  # Assumes width is an additional 1/3 of height. To achieve this look use Courier new font on Windows terminal with 12ft size and 0.5 line spacing.
+display_width, display_height = 25, 50
+cube_width, cube_height = side_length, int(side_length*(1/3))+side_length  # Assumes width is an additional 1/3 of height. To achieve this look use Courier new font on Windows terminal with 12ft size and 0.5 line spacing.
 x, y, z = 1.0, 0.5 ,0.0
 
-display_array = np.zeros((width, height), dtype=int)
+display_array = np.zeros((display_width, display_height), dtype=int)
+corner_array_x = np.array([2,2,4,4,1,1,4,4], dtype=int)
+corner_array_y = np.array([3,5,3,5,4,6,4,6], dtype=int)
 
 def get_rx(theta):
     return np.array([
