@@ -26,11 +26,13 @@ def calc_slope(co1, co2):
 def render():
     rows = 70
     cols = 40
-    quad1, quad2, quad3, quad4 = [["."] * cols for _ in range(int(rows/4))], [["."] * cols for _ in range(int(rows/4))], [["."] * cols for _ in range(int(rows/4))], [["."] * cols for _ in range(int(rows/4))]
+    q_row=int(cols/2)
+    q_col=int(rows/2)
+    quad1, quad2, quad3, quad4 = [["."] * cols for _ in range(q_row)], [["."] * cols for _ in range(q_row)], [["."] * cols for _ in range(q_row)], [["."] * cols for _ in range(q_row)]
     content = [["."] * cols for _ in range(rows)]
 
     # (x,y, char)
-    grid = [(0,0, "*"), (calc_x(6,0, a), calc_y(6,0, a), "@"), (calc_x(6,3, a), calc_y(6,3, a),"O"),]
+    grid = [(0,0, "*"), (calc_x(6,0, a), calc_y(6,0, a), "@"), (calc_x(6,3, a), calc_y(6,3, a),"O"), (6,-3, "&")]
     slopes = []
     for i in range(len(grid)):
         for k in range(len(grid)):
@@ -39,8 +41,17 @@ def render():
 
     print(slopes)
 
+    width = len(str(max(rows, cols) - 1))
+    content_line = "# | values |"
+    # quad_line =  "# | quad + quad |"
+
+    quad_dashes = "-".join("-" * width for _ in range(int(cols/2)))
+    dashes = quad_dashes + quad_dashes + "-"
+
+    # set the x and y axis
+
     # for(y,x) goes to content[x][y]. This runs (Large to small)
-    for (y, x, c) in grid:
+    for (x, y, c) in grid:
         if x >=0 and y >= 0: #quad 1 (S to L on X) (L to S on Y)
             quad1[x][y] = c
         elif x < 0 and y <= 0: #quad 3 (L to S on X) (S to L on Y)
@@ -50,14 +61,7 @@ def render():
         elif x < 0 > y: # quad 2 (L to S on X) (L to S on Y)
             quad2[np.abs(x)][y] = c
 
-    width = len(str(max(rows, cols) - 1))
-    content_line = "# | values |"
-    quad_line =  "# | quad + quad |"
-
-
-    quad_dashes = "-".join("-" * width for _ in range(int(cols/2)))
-    dashes = quad_dashes + quad_dashes + "-"
-
+    print(quad4[6][3])
     # dashes = "-".join("-" * width for _ in range(cols))
     frame_line = content_line.replace("values", dashes)
     frame_line = frame_line.replace("#", " " * width)
@@ -68,16 +72,30 @@ def render():
     y_mid = int(rows/2)
     x_mid = int(cols/2)
     for y in range(rows):
+        values = ""
         for x in range(cols):
             if y < y_mid and x < x_mid:
                 '''Quad 2'''
-
+                print("2", end='')
             elif y <= y_mid and x >= x_mid:
                 '''Quad 1'''
+                print("1", end='')
             elif y >= y_mid and x < x_mid:
                 '''Quad 3'''
-            elif y > y_mid and x <= x_mid:
+                print("3", end='')
+            elif y > y_mid and x >= x_mid:
                 '''Quad 4'''
+                if x == x_mid and quad4[x_mid-x][y_mid-y] != '.':
+                    values = values.join("|")
+                    '''nothing'''
+                else:
+                    '''nothing'''
+                    values = values + f"{quad4[x_mid - x][y_mid - y]}{" " * width}"
+                    if 3 == x_mid-x and 6 == y_mid-y:
+                        print("\n\n\n\n\n")
+        quad_line = content_line.replace("values", values)
+        print(quad_line)
+    print(frame_line)
     # for i, row in enumerate(reversed(content), 1):
     #     iterator = 0
     #
