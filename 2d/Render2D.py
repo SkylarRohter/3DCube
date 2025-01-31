@@ -24,8 +24,8 @@ print("\n\n\n")
 def calc_slope(co1, co2):
     return [(co2[1] - co1[1]),(co2[0] - co1[0])]
 def render():
-    rows = 70
-    cols = 40
+    rows = 30
+    cols = 20
     q_row=int(cols/2)
     q_col=int(rows/2)
     quad1, quad2, quad3, quad4 = [["."] * cols for _ in range(q_row)], [["."] * cols for _ in range(q_row)], [["."] * cols for _ in range(q_row)], [["."] * cols for _ in range(q_row)]
@@ -42,7 +42,7 @@ def render():
     print(slopes)
 
     width = len(str(max(rows, cols) - 1))
-    content_line = "# | values |"
+    content_line = "# ] values ]"
     # quad_line =  "# | quad + quad |"
 
     quad_dashes = "-".join("-" * width for _ in range(int(cols/2)))
@@ -65,7 +65,7 @@ def render():
     # dashes = "-".join("-" * width for _ in range(cols))
     frame_line = content_line.replace("values", dashes)
     frame_line = frame_line.replace("#", " " * width)
-    frame_line = frame_line.replace("| ", "+-").replace(" |", "-+")
+    frame_line = frame_line.replace("] ", "+-").replace(" ]", "-+")
 
     print(frame_line)
 
@@ -74,26 +74,36 @@ def render():
     for y in range(rows):
         values = ""
         for x in range(cols):
-            if y < y_mid and x < x_mid:
-                '''Quad 2'''
-                print("2", end='')
-            elif y <= y_mid and x >= x_mid:
-                '''Quad 1'''
-                print("1", end='')
-            elif y >= y_mid and x < x_mid:
-                '''Quad 3'''
-                print("3", end='')
-            elif y > y_mid and x >= x_mid:
-                '''Quad 4'''
-                if x == x_mid and quad4[x_mid-x][y_mid-y] != '.':
-                    values = values.join("|")
-                    '''nothing'''
-                else:
-                    '''nothing'''
-                    values = values + f"{quad4[x_mid - x][y_mid - y]}{" " * width}"
-                    if 3 == x_mid-x and 6 == y_mid-y:
-                        print("\n\n\n\n\n")
+            if y <= y_mid:
+                if y < y_mid and x < x_mid:
+                    '''Quad 2'''
+                    values = values + "*" + " "*width
+                elif y == y_mid and x >= x_mid:
+                    values = values + "+"
+                elif y < y_mid and x >= x_mid:
+                    values = values + "o" + " "*width
+                    '''Quad 1'''
+
+            elif y >= y_mid:
+                if y == y_mid and x < x_mid:
+                    values = values + "-" + "-"*width
+                elif x < x_mid:
+                    values = values + f"{quad3[x-x_mid][y-y_mid]}{" " * width}"
+                    '''Quad 3'''
+
+                elif x >= x_mid and y > y_mid:
+                    '''Quad 4'''
+                    if x == x_mid and quad4[x-x_mid][y-y_mid] == '.':
+                        values = values + f"|{" "*width}"
+                        '''nothing'''
+                    else:
+                        '''nothing'''
+                        values = values + f"{quad4[x-x_mid][y-y_mid]}{" " * width}"
         quad_line = content_line.replace("values", values)
+        if y == y_mid:
+            quad_line = quad_line.replace(" ] ", "  +")
+        quad_line = quad_line.replace(" ] ", "  |").replace("]", "|")
+        quad_line = quad_line.replace(" ] ", "  |")
         print(quad_line)
     print(frame_line)
     # for i, row in enumerate(reversed(content), 1):
