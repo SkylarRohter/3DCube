@@ -3,7 +3,7 @@ Chose Python to familiarize myself with 3d rotation matrices.<br>
 Will at some point make this in C++ to practice manual garbage collection and stuff.<br>
 
 
-### Prerequisites
+### Prerequisites (for 3d only)
 * Run this from the Windows 11 terminal app, <i>not cmd </i>
 * Use the <i>Courier New</i> font size 12
 * Set the line spacing to 0.5
