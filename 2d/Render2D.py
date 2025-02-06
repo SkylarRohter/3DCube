@@ -73,7 +73,7 @@ def render():
     print(quad4[6][3])
     # dashes = "-".join("-" * width for _ in range(cols))
     frame_line = content_line.replace("values", dashes)
-    frame_line = frame_line.replace("#", " " * width)
+    frame_line = frame_line.replace("#", " " * width).replace(" ] ", "    +").replace(" ]", "----+")
 
     print(frame_line)
 
@@ -117,3 +117,10 @@ def render():
         quad_line = quad_line.replace(" ] ", "  |" + " "*width).replace(" ]", "|")
         print(quad_line)
     print(frame_line)
+
+    num_line = content_line.replace("]", " "*width)
+    num_line = num_line.replace("#", " " * int(width + 3))
+    pos_nums = " ".join(f"{i + 1:<{width}d}" for i in range(q_row))
+    neg_nums = " ".join(f"{q_row-i:<{width}d}" for i in range(q_row))
+    num_line = num_line.replace("values", f"{neg_nums} 0  {pos_nums}")
+    print(num_line)
